@@ -1,0 +1,86 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**",
+          "LICENSE",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ],
+        "group": "beta",
+        "src": "beta/docs"
+      },
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          "beta",
+          "**/obj/**",
+          "**/includes/**",
+          "LICENSE",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ],
+        "group": "v1.0",
+        "src": "."
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ],
+        "group": "beta",
+        "src": "beta/docs"
+      },
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg"
+        ],
+        "exclude": [
+          "beta",
+          "**/obj/**",
+          "**/includes/**"
+        ],
+        "group": "v1.0",
+        "src": "."
+      }
+    ],
+    "overwrite": [],
+    "externalReference": [],
+    "globalMetadata": {
+      "ms.prod": "onedrive",
+      "ms.topic": "reference",
+      "titleSuffix": "Microsoft Graph",
+      "breadcrumb_path": "/onedrive/developer/breadcrumb/toc.json",
+      "uhfHeaderId": "MSDocsHeader-OneDrive"
+    },
+    "fileMetadata": {},
+    "template": [],
+    "dest": "onedrive",
+    "groups": {
+      "v1.0": {
+        "dest": "v1temp",
+        "moniker_range": ">= graph-rest-1.0"
+      },
+      "beta": {
+        "dest": "betatemp",
+        "moniker_range": "<= graph-rest-beta"
+      }
+    }
+  }
+}

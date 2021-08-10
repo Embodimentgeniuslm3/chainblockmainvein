@@ -1,0 +1,15 @@
+- name: Microsoft Graph
+  tocHref: /onedrive/developer
+  topicHref: /onedrive/developer/index
+  items:
+  - name: EXPLORE
+    expanded: true
+    tocHref: /onedrive/developer/rest-api/concepts
+    topicHref: /onedrive/developer/rest-api/concepts/index
+  - name: LEARN
+    expanded: true
+    tocHref: /onedrive/developer/rest-api/concepts
+    topicHref: /onedrive/developer/rest-api/concepts/index
+  - name: DEVELOP
+    tocHref: /onedrive/developer/rest-api
+    topicHref: /onedrive/developer/rest-api/index
