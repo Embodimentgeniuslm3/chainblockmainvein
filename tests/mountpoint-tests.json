@@ -1,0 +1,191 @@
+{
+  "scenarios": [
+    {
+      "name": "Add shared folder to OneDrive",
+      "method": "add-mountpoint",
+      "enabled": true,
+      "request-parameters": {
+        "$.name": "mds-test-add-to-onedrive",
+        // These values are from another test account made
+        "$.remoteItem.id": "[item-id]",
+        "$.remoteItem.parentReference.driveId": "[drive-id]"
+      },
+      "test-setup": [
+        {
+          "method": "get-drive-default",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive"
+          },
+          "capture": {
+            "[drive-id]": "$.id"
+          }
+        },
+        {
+          "method": "delete-item",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/mountpoint-folder"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "create-folder",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root/children",
+            "$.name": "mountpoint-folder"
+          },
+          "capture": {
+            "[item-id]": "$.id"
+          }
+        },
+        {
+          "method": "upload-via-put",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root:{item-path}:/content",
+            "{item-path}": "/mountpoint-folder/summer.jpg",
+            "!body": "Test image",
+            "Content-Type:": "image/jpeg"
+          }
+        },
+        {
+          "method": "delete-item",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/mds-test-add-to-onedrive"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        }
+      ]
+    },
+
+    {
+      "name": "Remove a shared folder from OneDrive",
+      "method": "delete-mountpoint",
+      "enabled": true,
+      "request-parameters": {
+        "{local-item-id}": "[mountpoint-id]"
+      },
+      "test-setup": [
+        {
+          "method": "get-drive-default",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive"
+          },
+          "capture": {
+            "[drive-id]": "$.id"
+          }
+        },
+        {
+          "method": "delete-item",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/mountpoint-folder"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "create-folder",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root/children",
+            "$.name": "mountpoint-folder"
+          },
+          "capture": {
+            "[item-id]": "$.id"
+          }
+        },
+        {
+          "method": "upload-via-put",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root:{item-path}:/content",
+            "{item-path}": "/mountpoint-folder/summer.jpg",
+            "!body": "Test image",
+            "Content-Type:": "image/jpeg"
+          }
+        },
+        {
+          "method": "delete-item",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/mds-test-add-to-onedrive"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "add-mountpoint",
+          "request-parameters": {
+            "$.name": "mds-test-add-to-onedrive",
+            "$.remoteItem.id": "[item-id]",
+            "$.remoteItem.parentReference.driveId": "[drive-id]"
+          },
+          "capture": {
+            "[mountpoint-id]": "$.id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Enumerate another drive's items",
+      "method": "enum-mountpoint",
+      "enabled": true,
+      "request-parameters": {
+        "{drive-id}": "[drive-id]",
+        "{item-id}": "[item-id]"
+      },
+      "expectations": {
+        "$.value[0].name": "summer.jpg"
+      },
+      "test-setup": [
+        {
+          "method": "get-drive-default",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive"
+          },
+          "capture": {
+            "[drive-id]": "$.id"
+          }
+        },
+        {
+          "method": "delete-item",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/mountpoint-folder"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "create-folder",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root/children",
+            "$.name": "mountpoint-folder"
+          },
+          "capture": {
+            "[item-id]": "$.id"
+          }
+        },
+        {
+          "method": "upload-via-put",
+          "secondary-account": true,
+          "request-parameters": {
+            "!url": "/drive/root:{item-path}:/content",
+            "{item-path}": "/mountpoint-folder/summer.jpg",
+            "!body": "Test image",
+            "Content-Type:": "image/jpeg"
+          }
+        }
+      ]
+    }
+
+  ]
+}
