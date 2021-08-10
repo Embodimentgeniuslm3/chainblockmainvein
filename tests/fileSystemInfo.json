@@ -1,0 +1,33 @@
+{
+  "scenarios":[
+    {
+      "name": "Patch FileSystemInfo facet",
+      "method": "update-item",
+      "enabled": true,
+      "tags": ["service.onedrive"],
+      "request-parameters": {
+        "{item-id}": "[new-item-id]",
+        "$.fileSystemInfo.createdDateTime": "2015-01-01T00:00:00Z",
+        "$.fileSystemInfo.lastModifiedDateTime": "2015-05-15T15:20:00Z",
+        "$.name": null
+      },
+      "test-setup": [
+        {
+          "method": "delete-item",
+          "request-parameters": { "{item-id}": "root:/pictures/2014-08-26lrg.png" },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "upload-via-put",
+          "request-parameters": {
+            "!url": "/drive/root:{item-path}:/content",
+            "{item-path}": "/pictures/2014-08-26lrg.png"
+          },
+          "capture": {
+            "[new-item-id]": "$.id"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schemaConfig": {
+    "defaultNamespace": "oneDrive",
+    "baseUrls": [
+      "https://sp-my.contoso.com/_api/v2.0",
+      "https://sp-my.contoso.com/_api/v2.0",
+      "/v2.0"
+    ],
+    "notLowerCamel": [
+      "Json"
+    ],
+    "supportedTags": [
+      "service.onedrive",
+      "onedrive.only"
+    ]
+  },
+  "schemaDiffConfig": {
+    "dropElementsContaining": [
+    ],
+    "keepElementsContaining": [
+    ]
+  }
+}
