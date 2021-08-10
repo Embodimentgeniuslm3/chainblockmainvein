@@ -1,0 +1,43 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**",
+          "LICENSE",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ]
+      }
+    ],
+    "overwrite": [],
+    "externalReference": [],
+    "globalMetadata": {
+      "ms.prod": "onedrive",
+      "ms.topic": "reference",
+      "titleSuffix": "OneDrive dev center",
+      "breadcrumb_path": "/onedrive/developer/breadcrumb/toc.json",
+      "uhfHeaderId": "MSDocsHeader-OneDrive"
+    },
+    "fileMetadata": {},
+    "template": [],
+    "dest": "onedrive"
+  }
+}
