@@ -1,0 +1,165 @@
+{
+  "canned-requests": [
+    {
+      "name": "delete-and-create-item",
+      "method": "upload-via-put-id",
+      "request-parameters": {
+        "!url": "/drive/root:{item-path}:/content",
+        "{item-path}": "/Documents/sharedfile.txt",
+        "!body": "Test file that we will share"
+      },
+      "capture": {
+        "[new-item-id]": "$.id"
+      },
+      "test-setup": [
+        {
+          "method": "delete-item",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}",
+            "{item-id}": "root:/Documents/sharedfile.txt"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Send a sharing invitation",
+      "method": "send-sharing-invite",
+      "enabled": false
+    },
+
+    {
+      "name": "Create a sharing link for an item",
+      "method": "create-link",
+      "enabled": true,
+      "tags": [ "service.graph" ],
+
+      "request-parameters": {
+        "{item-id}": "[new-item-id]"
+      },
+
+      "test-setup": [
+        {
+          "method": "delete-item",
+          "request-parameters": {
+            "{item-id}": "root:/Documents/sharedfile.txt"
+          },
+          "allowed-status-codes": [ 204, 404 ]
+        },
+        {
+          "method": "upload-via-put-id",
+          "request-parameters": {
+            "{item-id}": "root:/Documents/sharedfile.txt:",
+            "!body": "Test file that we will share"
+          },
+          "capture": {
+            "[new-item-id]": "$.id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Create a scoped sharing link for an item",
+      "method": "create-link-scoped",
+      "enabled": true,
+      "allowed-status-codes": [ 201, 200 ],
+
+      "request-parameters": {
+        "{item-id}": "[item-id]"
+      },
+
+      "test-setup": [
+        { "canned-request": "create-file-item" }
+      ]
+    },
+
+    {
+      "name": "Get shared driveItem",
+      "method": "get-shared-driveitem",
+      "enabled": true,
+      "tags": [ "onedrive.only" ],
+      "request-parameters": {
+        "{shareIdOrUrl}": "[shareId]"
+      },
+      "test-setup": [
+        { "canned-request": "delete-and-create-item" },
+        {
+          "method": "create-link",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}/action.createLink",
+            "{item-id}": "root:/Documents/sharedfile.txt:"
+          },
+          "capture": { "[shareId]": "$.shareId" }
+        }
+      ]
+    },
+
+    {
+      "name": "Get shared driveItem and expand children",
+      "method": "get-shared-driveitem-expand-children",
+      "enabled": true,
+      "tags": [ "onedrive.only" ],
+      "request-parameters": {
+        "{shareIdOrUrl}": "[shareId]"
+      },
+      "test-setup": [
+        { "canned-request": "delete-and-create-item" },
+        {
+          "method": "create-link",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}/action.createLink",
+            "{item-id}": "root:/Documents/sharedfile.txt:"
+          },
+          "capture": { "[shareId]": "$.shareId" }
+        }
+      ]
+    },
+
+    {
+      "name": "Share root with encoded sharing URL",
+      "method": "get-shared-root",
+      "enabled": true,
+      "tags": [ "onedrive.only" ],
+      "request-parameters": {
+        "{sharingTokenOrUrl}": "#\"u!\" + System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(values[\"[webUrl]\"]))"
+      },
+      "test-setup": [
+        { "canned-request": "delete-and-create-item" },
+        {
+          "method": "create-link",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}/action.createLink",
+            "{item-id}": "root:/Documents/sharedfile.txt:"
+          },
+          "capture": { "[webUrl]": "$.link.webUrl" }
+        }
+      ]
+
+    },
+
+    {
+      "name": "Share root with sharing token",
+      "method": "get-shared-root",
+      "enabled": true,
+      "tags": [ "onedrive.only" ],
+      "request-parameters": {
+        "{sharingTokenOrUrl}": "[shareId]"
+      },
+      "test-setup": [
+        { "canned-request": "delete-and-create-item" },
+        {
+          "method": "create-link",
+          "request-parameters": {
+            "!url": "/drive/items/{item-id}/action.createLink",
+            "{item-id}": "root:/Documents/sharedfile.txt:"
+          },
+          "capture": { "[shareId]": "$.shareId" }
+        }
+      ]
+    }
+
+  ]
+}
